@@ -1,0 +1,76 @@
+<div class="container">
+
+  <mat-card class="container mt-5 card">
+  <div class="container">
+
+    <div class="mt-4">
+      <h1> Lista usuarios</h1>
+    </div>
+
+    <div class="mt-4">
+      <button mat-raised-button class="buttonCA-second mr-1" type="button" (click)="createUser()">Crear usuario</button>
+    </div>
+
+  <div class="container mat-elevation-z8 mt-5">
+    <ng-container *ngIf="!dataUsuarios">
+      <br>
+      <mat-spinner style="margin: auto" [diameter]="60"></mat-spinner>
+      <br>
+    </ng-container>
+    <table mat-table [dataSource]="dataSource" *ngIf="dataUsuarios">
+
+
+      <!-- userProviderNit Column -->
+      <ng-container matColumnDef="id">
+        <th class="text-center" mat-header-cell *matHeaderCellDef> Id usuario </th>
+        <td class="text-center" mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
+      <!-- userProviderName Column -->
+      <ng-container matColumnDef="username">
+        <th class="text-center" mat-header-cell *matHeaderCellDef> Nombre usuario </th>
+        <td class="text-center" mat-cell *matCellDef="let element"> {{element.username}} </td>
+      </ng-container>
+
+       <!-- UserProviderLastname Column -->
+       <ng-container matColumnDef="first_name">
+        <th class="text-center" mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td class="text-center" mat-cell *matCellDef="let element"> {{element.first_name === ''?'Dato no ingresado':element.first_name }} </td>
+      </ng-container>
+
+       <!-- providertypeId Column -->
+       <ng-container matColumnDef="last_name">
+        <th class="text-center" mat-header-cell *matHeaderCellDef> Apellido </th>
+        <td class="text-center" mat-cell *matCellDef="let element"> {{element.last_name === ''?'Dato no ingresado': element.last_name }} </td>
+      </ng-container>
+
+      <!-- userProviderEmail Column -->
+      <ng-container matColumnDef="userProviderEmail">
+        <th class="text-center" mat-header-cell *matHeaderCellDef> Correo electronico </th>
+        <td class="text-center" mat-cell *matCellDef="let element"> {{element.email === ''?'Dato no ingresado': element.email }} </td>
+      </ng-container>
+
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="symbol">
+        <th class="text-center" mat-header-cell *matHeaderCellDef> Actualizar </th>
+        <td class="text-center" mat-cell *matCellDef="let element">
+          <p type="button" (click)="openDialogUdataUser(element)" mat-raised-button class="pt-2" style="background-color: rgba(255, 255, 255, 0); color: rgba(255, 255, 255, 0); cursor: pointer;">
+            <i class="material-icons md-18" style="color: black;">done</i>
+          </p>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+  </div>
+  </div>
+  <br> <br>
+
+  </mat-card>
+  <br> <br>
+  </div>

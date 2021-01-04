@@ -1,0 +1,214 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-1 offset-sm-11">
+      <!-- <mat-icon (click)="close()">close</mat-icon> -->
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="container mt-3">
+  <form novalidate (ngSubmit)="onSubmit()" [formGroup]="registrarAuto" #myform="ngForm">
+    <div class="row">
+      <mat-card class="container card">
+        <div class="row">
+          <div class="col-sm-11">
+            <h2 mat-dialog-title>Creación usuario</h2>
+          </div>
+          <div (click)="close()" style="cursor: default" class="col-sm-1">
+            <mat-icon>close</mat-icon>
+          </div>
+        </div>
+
+
+        <mat-card class="mt-2">
+        <div class="row">
+          <div class="colum col-lg-6">
+                  <mat-form-field class="w-100 mt-4">
+                    <input matInput placeholder="Nombre de usuario"  type="text" formControlName="username"/>
+                    <mat-error *ngIf="registrarAuto.get('username').hasError('required')">
+                      Este campo es obligatorio.
+                    </mat-error>
+                  </mat-form-field>
+          </div>
+          <div class="colum col-lg-6 mt-2">
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Fecha nacimiento</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                [(ngModel)]="date"
+                (ngModelChange)="modelChanged($event)"
+                formControlName="fecha_nacimiento"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker touchUi #picker color="primary"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="colum col-lg-6 mt-2">
+                  <mat-form-field class="w-100">
+                    <input matInput placeholder="Nombre"  type="text" formControlName="first_name"/>
+                    <mat-error *ngIf="registrarAuto.get('first_name').hasError('required')">
+                      Este campo es obligatorio.
+                    </mat-error>
+                  </mat-form-field>
+          </div>
+          <div class="colum col-lg-6 mt-2">
+                <mat-form-field class="w-100">
+                  <input matInput placeholder="Apellido"  type="text" formControlName="last_name"/>
+                  <mat-error *ngIf="registrarAuto.get('last_name').hasError('required')">
+                    Este campo es obligatorio.
+                  </mat-error>
+                </mat-form-field>
+          </div>
+          <div class="colum col-lg-6 mt-2">
+                <mat-form-field class="w-100">
+                  <input matInput placeholder="Email"  type="text" formControlName="email"/>
+                  <mat-error *ngIf="registrarAuto.get('email').hasError('required')">
+                    Este campo es obligatorio.
+                  </mat-error>
+                  <mat-error *ngIf="registrarAuto.get('email').hasError('pattern')">
+                    Ingrese un correo electronico valido.
+                    </mat-error>
+                </mat-form-field>
+          </div>
+          <div class="colum col-lg-6 mt-2">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Direccion"  type="text" formControlName="direccion"/>
+              <mat-error *ngIf="registrarAuto.get('direccion').hasError('required')">
+                Este campo es obligatorio.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="colum col-lg-6 mt-2">
+                <mat-form-field class="w-100">
+                  <input matInput placeholder="Password"  type="text" formControlName="password"/>
+                  <mat-error *ngIf="registrarAuto.get('password').hasError('required')">
+                    Este campo es obligatorio.
+                  </mat-error>
+                  <mat-error *ngIf="registrarAuto.get('password').hasError('pattern')">
+                    Este campo es obligatorio.
+                  </mat-error>
+                </mat-form-field>
+                <mat-error class="mat-error" *ngIf="checarSiSonIguales()">La contraseña debe tener un carcater especial y uno alfanúmerico</mat-error>
+          </div>
+          <div class="colum col-lg-6 mt-2">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Confirmar Password"  type="text" formControlName="confPassword"/>
+              <mat-error *ngIf="registrarAuto.get('confPassword').hasError('required')">
+                Este campo es obligatorio.
+              </mat-error>
+              <mat-error *ngIf="registrarAuto.get('confPassword').hasError('pattern')">
+                Este campo es obligatorio.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="colum col-lg-6 mt-2">
+            <mat-form-field class="w-100">
+              <mat-label>Tipo docuemnto</mat-label>
+              <mat-select formControlName="tipo_documento" [(value)]="tipoDocumento" (selectionChange)="selectTypeDocument(tipoDocumento)">
+                <mat-option  *ngFor="let option of servicios" [value]="option" >
+                  {{option.descripcion}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="registrarAuto.get('tipo_documento').hasError('required') ">
+                Este campo es obligatorio.
+              </mat-error>
+              <!--
+              <mat-error *ngIf="cambioCitas.get('tipoCita').hasError('checkState')">
+                No se puede cambiar al mismo estado de la cita
+              </mat-error>   -->
+            </mat-form-field>
+          </div>
+          <div class="colum col-lg-6 mt-2">
+            <mat-form-field class="w-100">
+              <mat-label>Tipo Usuario</mat-label>
+              <mat-select formControlName="tipo_usuario" [(value)]="tipoUsuario" (selectionChange)="selectTypeUser(tipoUsuario)">
+                <mat-option  *ngFor="let option of dataTypeUser" [value]="option" >
+                  {{option.nombre}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="registrarAuto.get('tipo_usuario').hasError('required') ">
+                Este campo es obligatorio.
+              </mat-error>
+              <!--
+              <mat-error *ngIf="cambioCitas.get('tipoCita').hasError('checkState')">
+                No se puede cambiar al mismo estado de la cita
+              </mat-error>   -->
+            </mat-form-field>
+          </div>
+          <div class="colum col-lg-6 mt-2">
+            <mat-form-field class="w-100">
+              <mat-label>Departamento</mat-label>
+              <mat-select formControlName="id_departamento" [(value)]="idDepartment.id_departamento" (selectionChange)="selectDepartment(idDepartment)">
+                <mat-option  *ngFor="let option of department" [value]="option" >
+                  {{option.departamento}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="registrarAuto.get('tipo_usuario').hasError('required') ">
+                Este campo es obligatorio.
+              </mat-error>
+              <!--
+              <mat-error *ngIf="cambioCitas.get('tipoCita').hasError('checkState')">
+                No se puede cambiar al mismo estado de la cita
+              </mat-error>   -->
+            </mat-form-field>
+          </div>
+          <div class="colum col-lg-6 mt-2">
+            <mat-form-field class="w-100">
+              <mat-label>Ciudad</mat-label>
+              <mat-select formControlName="id_ciudad" [(value)]="idCiudad" (selectionChange)="selectCiudad(idCiudad)">
+                <mat-option  *ngFor="let option of ciudades" [value]="option" >
+                  {{option.ciudad}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="registrarAuto.get('tipo_usuario').hasError('required') ">
+                Este campo es obligatorio.
+              </mat-error>
+              <!--
+              <mat-error *ngIf="cambioCitas.get('tipoCita').hasError('checkState')">
+                No se puede cambiar al mismo estado de la cita
+              </mat-error>   -->
+            </mat-form-field>
+          </div>
+          <div class="colum col-lg-6 mt-2">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Bio"  type="text" formControlName="bio"/>
+              <mat-error *ngIf="registrarAuto.get('bio').hasError('required')">
+                Este campo es obligatorio.
+              </mat-error>
+            </mat-form-field>
+          </div>
+      <br>
+        </div>
+      </mat-card>
+
+
+          <br>  <br>
+
+        <div class="row justify-content-center text-right mb-4">
+          <div class="col-sm-4 col-md-12 col-lg-12">
+            <button mat-raised-button class="buttonCA-second mr-1" type="button" (click)="close()">CANCELAR</button>
+            <button mat-raised-button class="buttonCA primary" [disabled]="registrarAuto.invalid" >GUARDAR</button>
+          </div>
+          <!--
+          <div class="col-sm-4 col-md-12 col-lg-3">
+            <button mat-raised-button class="buttonCA-second mr-4" type="button" (click)="limpiar()">LIMPIAR</button>
+          </div>
+          <div class="col-sm-4 col-md-12 col-lg-3">
+            <button mat-raised-button class="buttonCA-second" type="button"
+              (click)="openDialogInfoConvenio()">CONVENIOS</button>
+          </div>
+          <div class="col-sm-4 col-md-12 col-lg-3">
+            <button mat-raised-button class="buttonCA primary" [disabled]="registrarAuto.invalid">GUARDAR</button>
+          </div> -->
+        </div>
+      </mat-card>
+    </div>
+
+  </form>
+  <br>
+</div>
+</div>
